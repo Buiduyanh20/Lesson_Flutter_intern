@@ -9,7 +9,9 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   // Khởi tạo với trạng thái ban đầu
   CounterBloc() : super(CounterState.initial()) {
     on<Increment>((event, emit) {
-      emit(state.copyWith(value: state.value + 1));
+      emit(state.copyWith(
+        value: state.value + 1,
+      ));
     });
     on<Decrement>((event, emit) {
       emit(state.copyWith(value: state.value - 1));
