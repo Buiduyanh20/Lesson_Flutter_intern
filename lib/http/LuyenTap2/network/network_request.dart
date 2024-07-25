@@ -22,4 +22,37 @@ class NetworkRequest {
       throw Exception('Failed to load posts');
     }
   }
+
+  static Future<Post> addPost(Post post) async {
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(post.toJson()),
+    );
+    if (response.statusCode == 201) {
+      return Post.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to add post');
+    }
+  }
+
+  static Future<Post> updatePost(int id, Post post) async {
+    final response = await http.put(
+      Uri.parse('$url/$id'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(post.toJson()),
+    );
+    if (response.statusCode == 200) {
+      return Post.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to update post');
+    }
+  }
+
+  static Future<void> deletePost(int id) async {
+    final response = await http.delete(Uri.parse('$url/$id'));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete post');
+    }
+  }
 }
